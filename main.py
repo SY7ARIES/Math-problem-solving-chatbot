@@ -1671,3 +1671,30 @@ while True:
 
       print(b+"\nDo you have any more questions?")
       solve = input(w)
+      
+    #---------------------6.2. Find Non-hypotenuse---------------------
+    
+    if p6ty1ans == 2:
+      while True:
+        print(b+"Great! Let's start then!")
+        try:
+          print(b+'What is the length of the known non-hypotenuse side given?', unit)
+          bside=float(input(w+'b = '))
+          break
+        except:
+          print(num)
+
+      while True:
+        try:
+          print(b+'And what is the length of the second known side given?', unit)
+          cside=float(input(w+'c='))
+          break
+        except:
+          print(num)
+      a=lr + str(math.sqrt((cside**2)-(bside**2)))
+      rule=lr + f'(({cside}^2) - ({bside}^2))^(1/2) = {a}'
+      print(b+'The length of the unknown side is:', a, 'unit')
+      print(b+'The equation for finding this unknown side is:', rule)
+
+      print(b+"\nDo you have any more questions?")
+      solve = input(w)
