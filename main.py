@@ -1623,3 +1623,51 @@ while True:
       
       print(b+"\nDo you have any more questions?")
       solve = input(w)
+
+  #========================= 6. Pythagoras ==========================
+
+  if ans == 6:
+    print("\n\n")
+    print(lr + p5)
+    print(b+gadj.capitalize(), "\b! Let's start from Pythagoras then!")
+    print(b+'So which side of the right triangle are we finding?')
+    for y in p6ty:
+      print(lg+y)
+    while True:
+      try: 
+        p6ty1ans=int(input(w))
+        if p6ty1ans > 2 or p6ty1ans <= 0:
+          print(r+"I'm afraid there's not such an option. Please check the list and let's choose again!")
+          if p6ty1ans <= 2 and p6ty1ans > 0:
+            break
+        else:
+          break
+      except:
+        print(num)
+        
+    #-----------------------6.1. Find Hypotenuse-----------------------
+    
+    if p6ty1ans == 1:
+      while True:
+        print(b+"Great! Let's start then!")
+        try:
+          print(b+'What is the length of the first known side given?', unit)
+          aside=float(input(w+'a = '))
+          break
+        except:
+          print(num)
+
+      while True:
+        try:
+          print(b+'And what is the length of the second known side given?', unit)
+          bside=float(input(w+'b='))
+          break
+        except:
+          print(num)
+      c=lr + str(math.sqrt((aside**2)+(bside**2)))
+      rule=lr + f'(({aside}^2) + ({bside}^2))^(1/2) = {c}'
+      print(b+'The length of the hypotenuse is:', c, 'unit')
+      print(b+'The equation for finding the hypothenuse is:', rule)
+
+      print(b+"\nDo you have any more questions?")
+      solve = input(w)
