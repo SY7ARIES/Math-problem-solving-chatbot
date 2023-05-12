@@ -87,12 +87,12 @@ else:
 
 p1='1. Arithmetic & Geometric Sequences - Finding numbers, Sums and Terms in sequences'
 p2='2. Simple calculations - Additions, Subtractions, Multiplications, Divisions, Exponentials, Logarithms...'
-p3='3. Matrix - Additions, Subtractions, Multiplications, Divisions...'
+p3='3. Complex Number - Additions, Subtractions, Multiplications, Divisions...'
 p4='4. Geometry - Finding Areas, Volumes, Perimeters, Surface Areas...'
 p5='5. Trigonometry - Sin, Cos, Tan...'
-problemtypes=[p1, p2, p3, p4, p5]
+p6='6. Pythagoras - Finding lengths of sides of right triangles'
+problemtypes=[p1, p2, p3, p4, p5,p6]
 
-havepro = False
 
 while True:
   solve=solve.lower()
@@ -111,7 +111,7 @@ while True:
         print(b+"Alright then, I wish we can talk again in the future. Cya~")
         print(Fore.RED + "\nCici left the chat...")
         break
-  
+
   
   #====================== Problem Solving!!! =======================
   
@@ -137,6 +137,8 @@ while True:
   p5dr = ['1. Degrees', '2. Radians']
   p51 = ['1. Opposite & Hypotenuse Given (Sin)', '2. Adjacent & Hypotenuse Given (Cos)', '3. Opposite & Adjacent Given (Tan)']
   p52 = ['1. Finding Opposite', '2. Finding Adjacent', '3. Finding Hypotenuse']
+
+  p6ty = ['1. Finding The Length of the Hypotenuse side', '2. Finding the Length of a side that is not hypotenuse']
   
   num= Fore.YELLOW + "\u26A0" + Fore.RED+" Number Error: 1) Please just insert the NUMBER of the type of question you want to solve. 2) Please just type the NUMBER required in the question."
   unit = "(Don't type the unit)"
@@ -789,7 +791,6 @@ while True:
           break
         except:
           print(comnum)
-          
       while True:
         try:
           print(b+'What is the first subtrahend?', com)
@@ -1587,8 +1588,8 @@ while True:
       while True:
         print(b+"Great! Let's start then!")
         try:
-          print(b+f'What is the length of the side {side}?', unit)
-          side=float(input(w+f'{known} = '))
+          print(b+f'What is the length of the {knownf}?', unit)
+          knownnum=float(input(w+f'{known} = '))
           break
         except:
           print(num)
@@ -1600,22 +1601,25 @@ while True:
         except:
           print(num,'3) Please give your answer in DEGREES')
 
+      theta = math.radians(theta)
       if p5ty1ans == 1:
-        answer = lr + str(math.degrees(side/math.sin(theta))) if side == 1 else lr + str(math.degrees(side*math.sin(theta)))
+        
+        answer = lr + str(knownnum*math.tan(theta)) if side == 1 else lr + str(knownnum*math.sin(theta))
       if p5ty1ans == 2:
-        answer = lr + str(math.degrees(side/math.cos(theta))) if side == 1 else lr + str(math.degrees(side*math.cos(theta)))
+        answer = lr + str(knownnum/math.tan(theta)) if side == 1 else lr + str(knownnum*math.cos(theta))
       if p5ty1ans == 3:
-        answer = lr + str(math.degrees(side/math.tan(theta))) if side == 1 else lr + str(math.degrees(side*math.tan(theta)))
+        answer = lr + str(knownnum/math.sin(theta)) if side == 1 else lr + str(knownnum/math.cos(theta))
 
-      thetaword = str(theta) + '\b\u00B0'
+      thetaword = str(math.degrees(theta)) + '\u00B0'
       if p5ty1ans == 1:
-        rule = lr + str(f"{unknown} = {side} / sin({thetaword})") if side == 1 else lr + str(f"{unknown} = {side} * sin({theta})")  
+        rule = lr + str(f"{unknown} = {knownnum} * tan({thetaword})") if side == 1 else lr + str(f"{unknown} = {knownnum} * sin({thetaword})")  
       if p5ty1ans == 2:
-        rule = lr + str(f"unknown = {side} / cos{thetaword})") if side == 1 else lr + str(f"{unknown} = {side} * cos({theta})")
+        rule = lr + str(f"{unknown} = {knownnum} / tan({thetaword})") if side == 1 else lr + str(f"{unknown} = {knownnum} * cos({thetaword})")
       if p5ty1ans == 3:
-        rule = lr + str(f"unknown = {side} / tan{thetaword})") if side == 1 else lr + str(f"{unknown} = {side} * tan({theta})")
+        rule = lr + str(f"{unknown} = {knownnum} / sin({thetaword})") if side == 1 else lr + str(f"{unknown} = {knownnum} * cos({thetaword})")
 
       print(b+f"The length of {unknownf} is:", answer, 'unit')
       print(b+"The equation for finding the length of this side is:", rule)
+      
       print(b+"\nDo you have any more questions?")
       solve = input(w)
