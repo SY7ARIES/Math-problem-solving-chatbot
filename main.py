@@ -3,6 +3,10 @@ import random
 from textblob import TextBlob
 from colorama import Fore
 from getkey import getkey, key
+from replit import audio
+import time
+
+name = "Stranger"
 
 open=[
   "Good day mate! What's up?",
@@ -10,11 +14,11 @@ open=[
   "Yo what's up bro?",
   'Hello, how is everything going?',
 ]
-open=random.choice(open)
 bro=['bro', 'mate', 'my friend',]
 gadj=['epic', 'cool', 'cool', 'cute', 'sweet']
 blank=[' ', '!', '?']
 vowels=['a', 'e', 'i', 'o', 'u']
+good = ['n amazing', ' great', 'n awesome', ' good', ' fine']
 
 b=Fore.BLUE
 w=Fore.WHITE
@@ -22,31 +26,66 @@ r=Fore.RED
 lg=Fore.LIGHTGREEN_EX
 lr=Fore.LIGHTMAGENTA_EX  
 
+#---------------------------Loading------------------------------
+
+print(lr + 'Loading...')
+source = audio.play_tone(1, 600, 1)
+time.sleep(3)
+print(lr + "\nLoaded")
+source = audio.play_tone(0.25, 1500, 1)
+time.sleep(1)
+print('\n')
+
 #---------------------------Opening-------------------------------
 
-print(b + open + (lr + " (Type 'skip' to skip greeting)"))
-openans=input(w)
-openansblob=TextBlob(openans).polarity
+while True:
+  print(b + random.choice(open), (lr + " (Type 'skip' to skip greeting)") )
+  openans = TextBlob((input(w)).lower())
+  if ('hi' in openans and 'nothing' not in openans) or 'hello' in openans or 'hey' in openans:
+    continue
+  else:
+    break
+
+openansblob = openans.polarity
 
 if openans.lower() == 'skip':
   solve = 'yes'
   pass
 else:
-  if openansblob > 0:
-    print(b+"That's amazing", random.choice(bro), "\b! \nSo What's your name?")
-    name = input(w)
+  if ' and you' in openans or 'about you' in openans or 'you?' in openans or 'are you' in openans or 'hbu' in openans or 'wbu' in openans:
+    print(b + "Oh, I am having a" + random.choice(good) + " day so far! Thank you for asking!\n\nSo, what's your name?")
+  elif openansblob > 0:
+    print(b+"\nThat's amazing", random.choice(bro), "\b! \nSo What's your name?")
   elif openansblob == 0:
-    print(b+"Nice, anyways.\nWhat's your name", random.choice(bro), "\b?")
-    name = input(w)
+    print(b+"\nNice, anyways.\nWhat's your name", random.choice(bro), "\b?")
   else:
-    print(b+"Oh, that's fine, don't worry, you'll feel much better soon since you are chating with me heheeh, anyways.")
+    print(b+"\nOh, that's fine, don't worry, you'll feel much better soon since you are chating with me heheeh, anyways.")
     print("So what's your name my friend?")
-    name = input(w)
 
-  while len(name.split()) > 1 or len(name.split()) < 1:
-    print(b+"Oh, sorry forgot to say, just first name is fine.")
-    name=input("what's your first name?\n"+w)
-    if name.split() == 1: 
+  name = (input(w)).lower()
+
+  if "my name is " in name or "i'm " in name or "i am " in name:
+    name = name.replace('my name is ', '')
+    name = name.replace("i'm ", '')
+    name = name.replace("i am ", '')
+  
+  while True:
+    if "don't" in name or "no" in name or "not" in name:
+      print(b + "Oh, that's fine, I'm sorry for any offense, I swear didn't mean that \U0001F622")
+      name = 'no'
+      break
+    if len(name.split()) > 1:
+      print(b + "\nWow, I'm sorry but I am really bad at memorising, your name is sooooo long \U0001F635. Just give me your first name please =.=")
+      name = input(w)
+      if len(name.split()) == 1:
+        break
+    if len(name.split()) < 1:
+      print(b + "Oh come on, don't kill our chat 🥹")
+      print(b + "What's your first name?")
+      name = input(w)
+      if len(name.split()) == 1:
+        break
+    else:
       break
       
   for x in blank:
@@ -63,22 +102,27 @@ else:
     gadj = 'n ' + gadj
   else:
     gadj = ' ' + gadj
-  
-  print(b+"Awww,", name, "\b, that's such a"+ gadj+ " name!")
-  print("Anyways, I am Cici, a math problem solving robot. \nDo you know why I'm called Cici?")
+
+  if name.lower() == 'no':
+    pass
+  else:
+    name = name.capitalize()
+    print(b + 'Awww', name, "That's such a"+gadj, "name! ☆*:.o(≧▽≦)o.:*☆")
+    
+  print(b + "\nAnyways, I am Cici, a math problem solving robot. \nDo you know why I'm called Cici?")
   ans=input(w)
   
   davinci="y name actually came from the last syllable of Da Vinci! \nThis is because the person who created me admires Da Vinci a lot as he is good at nearly everything. Therefore, she wishes I can be similar minded to him as I was created to solve math problems, so she named me Cici. \nAnyways, so do you have any mathematical questions for me?"
   
   if 'da vinci' in ans.lower():
-    print(b+f"Oh my god! Yes you are right, m{davinci}")
+    print(b+f"Oh my god! \n\nYes you are right, m{davinci}")
   elif ans.lower() == 'yes':
     print(b+"Wow, tell me your thought!")
     ans = input(w)
     if 'da vinci' in ans.lower():
-      print(b+f"Oh my god! Yes you are right, m{davinci}")
+      print(b+f"Oh my god! \n\nYes you are right, m{davinci}")
     else:
-      print(b+f"Haha, good guess! But nah, I know it's hard to guess. \nM{davinci}")
+      print(b+f"Haha, good guess! But nah, I know it's hard to guess. \n\nM{davinci}")
   else:
     print(b+f"Haha, I know it's hard to guess. \nM{davinci}")
   solve=input(w)
@@ -97,19 +141,23 @@ problemtypes=[p1, p2, p3, p4, p5,p6]
 while True:
   solve=solve.lower()
   if 'ye' in solve or 'yes' in solve or 'yea' in solve or 'yup' in solve or 'sure' in solve:
-    print(b+"That's great! Solving more questions helps my developer to improve me.")
-    print("Which type of question would you like me to solve for you? \nAs I am still a developing program and my developer is only in Year 10, I can only solve the following types of problems:")
+    print(b+"\nThat's great! Solving more questions helps my developer to improve me.")
+    print(b+"Which type of question would you like me to solve for you? \nAs I am still a developing program and my developer is only in Year 10, I can only solve the following types of problems:")
     for y in problemtypes:
       print(lg + y)
-    print('Can you please type down the number of choice you want to choose and we can start solving your question!')
+    print(b+'\nPlease type down the number of choice you want to choose and we can start solving your question!')
   else:
       if openansblob < 0:
-        print(b+"Alright then, it looks like you don't really need me right now. I guess I'll just leave for now and wish we can talk in the fulture. Also, Hope you'll feel better. Cya~")
-        print(Fore.RED + "\nCici left the chat...")
+        print(b+f"\nAlright then, it looks like you don't really need me right now. \nI guess I'll just leave for now and wish we can talk in the fulture. Also, Hope you'll feel better, {name}. Cya~")
+        source = audio.play_file('bgm.mp3')
+        time.sleep(9)
+        print(Fore.RED + "\nCici left the chat..."+w)
         break
       else:
-        print(b+"Alright then, I wish we can talk again in the future. Cya~")
-        print(Fore.RED + "\nCici left the chat...")
+        print(b+f"Alright then, I wish we can talk again in the future, {name}. Cya~")
+        source = audio.play_file('bgm.mp3')
+        time.sleep(9)
+        print(Fore.RED + "\nCici left the chat..." +w)
         break
 
   
@@ -182,17 +230,17 @@ while True:
         print(lg+x)
       while True:
         try: 
-          p1ty1ans=int(input(w))
-          if p1ty1ans > 3 or p1ty1ans <= 0:
+          p1ty1ans1=int(input(w))
+          if p1ty1ans1 > 3 or p1ty1ans1 <= 0:
             print(r+"I'm afraid there's not such an option. Please check the list and let's choose again!")
-            if p1ty1ans <= 3 and p1ty1ans > 0:
+            if p1ty1ans1 <= 3 and p1ty1ans1 > 0:
               break
           else:
             break
         except:
           print(num)
       #--------------------1.1.1. nth term (tn)----------------------
-      if p1ty1ans == 1:
+      if p1ty1ans1 == 1:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -224,7 +272,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #--------1.1.2. first term and difference (a and d)------------
-      if p1ty1ans == 2:
+      if p1ty1ans1 == 2:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -271,7 +319,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #---------------1.1.3 sum of the nth term (Sn)-----------------
-      if p1ty1ans == 3:
+      if p1ty1ans1 == 3:
         while True:
           try:
             print(b+'What is the first term of the range in the sequence?')
@@ -310,17 +358,17 @@ while True:
         print(lg + x)
       while True:
         try: 
-          p1ty1ans=int(input(w))
-          if p1ty1ans > 4 or p1ty1ans <= 0:
+          p1ty1ans2=int(input(w))
+          if p1ty1ans2 > 4 or p1ty1ans2 <= 0:
             print(r+"I'm afraid there's not such an option. Please check the list and let's choose again!")
-            if p1ty1ans <= 4 and p1ty1ans > 0:
+            if p1ty1ans2 <= 4 and p1ty1ans2 > 0:
               break
           else:
             break
         except:
           print(num)
       #---------------------1.2.1. nth term (tn)---------------------
-      if p1ty1ans == 1:
+      if p1ty1ans2 == 1:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -352,7 +400,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #---------1.2.2. first term and difference (a and r)-----------
-      if p1ty1ans == 2:
+      if p1ty1ans2 == 2:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -398,7 +446,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #------------1.2.3. sum of the nth term (Sn)-------------------
-      if p1ty1ans == 3:
+      if p1ty1ans2 == 3:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -435,7 +483,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #------------1.2.4. sum to infinity(Si)------------------
-      if p1ty1ans == 4:
+      if p1ty1ans2 == 4:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -926,17 +974,17 @@ while True:
         print(lg+x)
       while True:
         try: 
-          p4ty1ans=int(input(w))
-          if p4ty1ans > 4 or p4ty1ans <= 0:
+          p4ty1ans1=int(input(w))
+          if p4ty1ans1 > 4 or p4ty1ans1 <= 0:
             print(r+"I'm afraid there's not such an option. Please check the list and let's choose again!")
-            if p4ty1ans <= 4 and p4ty1ans > 0:
+            if p4ty1ans1 <= 4 and p4ty1ans1 > 0:
               break
           else:
             break
         except:
           print(num)
       #----------------------4.1.1. Circles--------------------------
-      if p4ty1ans == 1:
+      if p4ty1ans1 == 1:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -953,7 +1001,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #---------------------4.1.2. Quadrilaterals--------------------
-      if p4ty1ans == 2:
+      if p4ty1ans1 == 2:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -978,7 +1026,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #-------------------------4.1.3. Squares-----------------------
-      if p4ty1ans == 3:
+      if p4ty1ans1 == 3:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -996,7 +1044,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #-----------------------4.1.4. Triangles-----------------------
-      if p4ty1ans == 4:
+      if p4ty1ans1 == 4:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1029,17 +1077,17 @@ while True:
         print(lg+x)
       while True:
         try: 
-          p4ty1ans=int(input(w))
-          if p4ty1ans > 7 or p4ty1ans <= 0:
+          p4ty1ans1=int(input(w))
+          if p4ty1ans1 > 7 or p4ty1ans1 <= 0:
             print(r+"I'm afraid there's not such an option. Please check the list and let's choose again!")
-            if p4ty1ans <= 7 and p4ty1ans > 0:
+            if p4ty1ans1 <= 7 and p4ty1ans1 > 0:
               break
           else:
             break
         except:
           print(num)
       #----------------------4.2.1. Spheres--------------------------
-      if p4ty1ans == 1:
+      if p4ty1ans1 == 1:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1056,7 +1104,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #---------------------4.2.2. Quadril Prisms--------------------
-      if p4ty1ans == 2:
+      if p4ty1ans1 == 2:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1088,7 +1136,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #------------------------4.2.3. Cubes--------------------------
-      if p4ty1ans == 3:
+      if p4ty1ans1 == 3:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1106,7 +1154,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #-----------------------4.2.4. Pyramids------------------------
-      if p4ty1ans == 4:
+      if p4ty1ans1 == 4:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1138,7 +1186,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #------------------4.2.5. Triangular Pyramids------------------
-      if p4ty1ans == 5:
+      if p4ty1ans1 == 5:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1170,7 +1218,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #-----------------------4.2.6. Cylinders-----------------------
-      if p4ty1ans == 6:
+      if p4ty1ans1 == 6:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1195,7 +1243,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #------------------------4.2.7. Cones--------------------------
-      if p4ty1ans == 7:
+      if p4ty1ans1 == 7:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1228,17 +1276,17 @@ while True:
         print(lg+x)
       while True:
         try: 
-          p4ty1ans=int(input(w))
-          if p4ty1ans > 2 or p4ty1ans <= 0:
+          p4ty1ans1=int(input(w))
+          if p4ty1ans1 > 2 or p4ty1ans1 <= 0:
             print(r+"I'm afraid there's not such an option. Please check the list and let's choose again!")
-            if p4ty1ans <= 2 and p4ty1ans > 0:
+            if p4ty1ans1 <= 2 and p4ty1ans1 > 0:
               break
           else:
             break
         except:
           print(num)
       #----------------------4.3.1. Circles--------------------------
-      if p4ty1ans == 1:
+      if p4ty1ans1 == 1:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1256,7 +1304,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #----------------------4.3.2. Polygon--------------------------
-      if p4ty1ans == 2:
+      if p4ty1ans1 == 2:
         perimeter = 0
         print(b+'Insert lengths of all the sides of this polygon. (Press Enter once to insert one value, press Enter three times to end)', unit)
         while True:
@@ -1283,10 +1331,10 @@ while True:
         print(lg+x)
       while True:
         try: 
-          p4ty1ans=int(input(w))
-          if p4ty1ans > 7 or p4ty1ans <= 0:
+          p4ty1ans1=int(input(w))
+          if p4ty1ans1 > 7 or p4ty1ans1 <= 0:
             print(r+"I'm afraid there's not such an option. Please check the list and let's choose again!")
-            if p4ty1ans <= 7 and p4ty1ans > 0:
+            if p4ty1ans1 <= 7 and p4ty1ans1 > 0:
               break
           else:
             break
@@ -1294,7 +1342,7 @@ while True:
           print(num)
 
       #----------------------4.4.1. Spheres--------------------------
-      if p4ty1ans == 1:
+      if p4ty1ans1 == 1:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1311,7 +1359,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #---------------------4.4.2. Quadril Prisms--------------------
-      if p4ty1ans == 2:
+      if p4ty1ans1 == 2:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1342,7 +1390,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #------------------------4.4.3. Cubes--------------------------
-      if p4ty1ans == 3:
+      if p4ty1ans1 == 3:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1360,7 +1408,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #-----------------------4.4.4. Pyramids------------------------
-      if p4ty1ans == 4:
+      if p4ty1ans1 == 4:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1392,7 +1440,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #-----------------------4.4.5. Cylinders-----------------------
-      if p4ty1ans == 5:
+      if p4ty1ans1 == 5:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1417,7 +1465,7 @@ while True:
         print(b+"\nDo you have any more questions?")
         solve = input(w)
       #------------------------4.4.7. Cones--------------------------
-      if p4ty1ans == 7:
+      if p4ty1ans1 == 7:
         while True:
           print(b+"Great! Let's start then!")
           try:
@@ -1628,7 +1676,7 @@ while True:
 
   if ans == 6:
     print("\n\n")
-    print(lr + p5)
+    print(lr + p6)
     print(b+gadj.capitalize(), "\b! Let's start from Pythagoras then!")
     print(b+'So which side of the right triangle are we finding?')
     for y in p6ty:
